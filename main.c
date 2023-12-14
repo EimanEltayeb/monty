@@ -61,7 +61,6 @@ int psh(char **arr, int *line_num, stack_t **head)
 {
 	int i = 0, n, check_push;
 
-	printf("before psh2");
 	if (arr[1] == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", *line_num);
@@ -125,8 +124,9 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			return (-1);
 		}
 		*opcode_p = arr[0];
-		if (strcmp(arr[0], "push") == 0)
-			psh(arr, line_num, &head);
+		/*if (strcmp(arr[0], "push") == 0)
+			psh(arr, line_num, &head);*/
+		check_opcode(arr, line_num, &head);
 
 		*line_num += 1;
 	}
