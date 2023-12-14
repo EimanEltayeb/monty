@@ -28,6 +28,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		psh(arr, line_num, head);
 	else if (strcmp(arr[0], "pall") == 0)
 		pll(head);
+	else if (strcmp(arr[0], "pint") == 0)
+		pnt(head);
 	return (0);
 }
 
@@ -56,4 +58,13 @@ void free_list(stack_t **head)
 		}
 
 	}
+}
+
+/**
+ * pnt - print the top element of the stack
+ * @head: head pointer
+*/
+void pnt(stack_t **head)
+{
+	printf("%d\n", (*head)->n);
 }
