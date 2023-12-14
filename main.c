@@ -96,11 +96,11 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 {
 	char *line = NULL, *token, **arr;
 	int i = 0, j = 2;
-	size_t ni = 0;
+	size_t n = 0;
 	stack_t *head = NULL;
 
 	*line_num = 1;
-	while (getline(&line, &ni, f) > 0)
+	while (getline(&line, &n, f) != -1)
 	{
 		arr = malloc(sizeof(char *) * 3);
 		if (arr == NULL)
@@ -125,16 +125,16 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		if (i == 0)
 		{
 			free(arr);
-			return (-1);
-		}
+			return (-1); }
 		*opcode_p = arr[0];
 		check_opcode(arr, line_num, &head);
 
 		*line_num += 1;
-	}
+		}
+	free_array(arr);
 	free(line);
-	return (1);
-}
+	free_list(&head);
+	return (1); }
 
 /**
  * main - main function
