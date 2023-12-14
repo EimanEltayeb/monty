@@ -23,7 +23,6 @@ void free_array(char **arr)
 int psh2(int n, stack_t **head)
 {
 	stack_t *new;
-	stack_t *temp;
 
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
@@ -32,21 +31,19 @@ int psh2(int n, stack_t **head)
 		return (-1);
 	}
 	new->n = n;
-	new->next = NULL;
+	new->prev = NULL;
+	new->next = *head;
 	if (*head == NULL)
 	{
 		*head = new;
-		new->prev = NULL;
 		return (1);
 	}
-	temp = *head;
-	while (temp->next != NULL)
+	else
 	{
-		temp = temp->next;
+		(*head)->prev = new;
+		*head = new;
+		return (1);
 	}
-	temp->next = new;
-	new->prev = temp;
-	return (1);
 }
 
 /**
