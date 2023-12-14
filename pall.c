@@ -18,7 +18,6 @@ void pll(stack_t **head)
 		printf("%d\n", temp->n);
 		temp = temp->prev;
 	}
-	printf("this is head %d", (*head)->n);
 }
 
 /**

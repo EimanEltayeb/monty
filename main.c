@@ -68,6 +68,11 @@ int psh(char **arr, int *line_num, stack_t **head)
 	}
 	while (arr[1][i] != '\0')
 	{
+		if (arr[1][0] == '-')
+		{
+			i++;
+			continue;
+		}
 		if (arr[1][i] <= '0' || arr[1][i] >= '9')
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", *line_num);
