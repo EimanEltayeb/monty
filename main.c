@@ -95,7 +95,7 @@ int psh(char **arr, int *line_num, stack_t **head)
 int first_function(FILE *f, int *line_num, char **opcode_p)
 {
 	char *line = NULL, *token, **arr;
-	int i = 0;
+	int i = 0, j = 2;
 	size_t ni = 0;
 	stack_t *head = NULL;
 
@@ -106,7 +106,7 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		if (arr == NULL)
 			return (-1);
 		token = strtok(line, " \n\t");
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < j; i++)
 		{
 			arr[i] = malloc(strlen(token) + 1);
 			if (arr[i] == NULL)
@@ -116,6 +116,10 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			}
 			strcpy(arr[i], token);
 			token = strtok(NULL, " \t\n");
+			if (strcmp(arr[0], "push") == 0)
+				j = 2;
+			else
+				j = 1;
 		}
 		arr[i] = NULL;
 		if (i == 0)
@@ -124,8 +128,6 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			return (-1);
 		}
 		*opcode_p = arr[0];
-		/*if (strcmp(arr[0], "push") == 0)
-			psh(arr, line_num, &head);*/
 		check_opcode(arr, line_num, &head);
 
 		*line_num += 1;

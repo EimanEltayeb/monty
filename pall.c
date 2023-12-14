@@ -8,11 +8,17 @@ void pll(stack_t **head)
 	stack_t *temp;
 
 	temp = *head;
+	while (temp->next != NULL)
+	{
+		temp = temp->next;
+	}
+
 	while (temp != NULL)
 	{
 		printf("%d\n", temp->n);
-		temp = temp->next;
+		temp = temp->prev;
 	}
+	printf("this is head %d", (*head)->n);
 }
 
 /**
