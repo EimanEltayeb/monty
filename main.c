@@ -1,5 +1,5 @@
 #include "monty.h"
-
+stack_t **head = NULL;
 /**
  * free_array - a function to free the line array
  * @arr: the array to be freed
@@ -17,7 +17,6 @@ void free_array(char **arr)
 /**
  * psh2 - continue push function
  * @n: data to be added to the list
- * @head: pointer to the list
  * Return: number indicating success or failure.
  */
 int psh2(int n)
@@ -87,9 +86,9 @@ int psh(char **arr, int *line_num)
 /**
  * first_function - first function
  * @f: file
- * @line_number: line number in the file
+ * @line_num: line number in the file
  * @opcode: opcode
- * Return: number indicating the error 
+ * Return: number indicating the error
  */
 int first_function(FILE *f, int *line_num, char **opcode)
 {
@@ -134,13 +133,12 @@ int first_function(FILE *f, int *line_num, char **opcode)
  * @argv: arguments
  * Return: 0
  */
-stack_t **head = NULL;
 int main(int argc, char *argv[])
 {
 	FILE *f;
 	char *name = NULL, **opcode = NULL;
 	int *line_num = 0, check = 0;
-       
+
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
