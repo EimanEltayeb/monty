@@ -1,4 +1,6 @@
 #include "monty.h"
+stack_s **head;
+
 /**
  * psh - pushes element to stack
  * @arr: arguments array
@@ -7,11 +9,24 @@
 
 int psh(char **arr)
 {
+	int i, n;
+
 	if (arr[1] == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", *line_num);
 		exit(EXIT_FAILURE);
 	}
+	while (arr[1][i] != NULL)
+	{
+		if (arr[1][i] <= 48 || arr[1][i] >= 57)
+		{
+			fprintf(stderr, "L%d: usage: push integer\n", *line_num);
+			exit(EXIT_FAILURE);
+		}
+	}
+	n = atoi(arr[1]);
+	
+
 }
 
 
