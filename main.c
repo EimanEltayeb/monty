@@ -124,10 +124,6 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 				j = 1;
 		}
 		arr[i] = NULL;
-		if (i == 0)
-		{
-			free(arr);
-			return (-1); }
 		*opcode_p = arr[0];
 		check_opcode(arr, line_num, &head);
 

@@ -30,6 +30,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		pll(head);
 	else if (strcmp(arr[0], "pint") == 0)
 		pnt(head);
+		else if (strcmp(arr[0], "nop") == 0)
+			return (0);
 	return (0);
 }
 
@@ -39,26 +41,23 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 */
 void free_list(stack_t **head)
 {
-	stack_t *temp;
+	stack_t *temp1, *temp2;
 
-	if (head != NULL)
+/*	if (head != NULL)
 	{
 		temp = (*head)->next;
 		if (temp == NULL)
 			free(head);
 		else
-		{
-			while (temp->next != NULL)
+		{*/
+		temp1 = *head;
+			while (temp1 != NULL)
 			{
-				free(temp->prev);
-				temp = temp->next;
+				temp2 = temp1->next;
+				free(temp1);
+				temp1 = temp2;
 			}
-			free(temp->prev);
-			free(temp);
 		}
-
-	}
-}
 
 /**
  * pnt - print the top element of the stack
@@ -68,3 +67,4 @@ void pnt(stack_t **head)
 {
 	printf("%d\n", (*head)->n);
 }
+
