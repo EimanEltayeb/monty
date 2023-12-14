@@ -17,9 +17,10 @@ void free_array(char **arr)
 /**
  * psh2 - continue push function
  * @n: data to be added to the list
+ * @head: head pointer
  * Return: number indicating success or failure.
  */
-int psh2(int n)
+int psh2(int n, stack_t **head)
 {
 	stack_t *new;
 	stack_t *temp;
@@ -55,10 +56,11 @@ int psh2(int n)
  * Return: 0 if error and 1 if success
  */
 
-int psh(char **arr, int *line_num)
+int psh(char **arr, int *line_num, stack_t **head)
 {
 	int i = 0, n, check_push;
-
+	
+	printf("before psh2");
 	if (arr[1] == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", *line_num);
@@ -76,7 +78,7 @@ int psh(char **arr, int *line_num)
 			i++;
 	}
 	n = atoi(arr[1]);
-	check_push = psh2(n);
+	check_push = psh2(n, head);
 	free_array(arr);
 	return (check_push);
 }
@@ -86,26 +88,33 @@ int psh(char **arr, int *line_num)
 /**
  * first_function - first function
  * @f: file
- * @line_num: line number in the file
- * @opcode: opcode
+ * @line_num_p: line number in the file
+ * @opcode_p: opcode
  * Return: number indicating the error
  */
-int first_function(FILE *f, int *line_num, char **opcode)
+int first_function(FILE *f, int *line_num, char **opcode_p)
 {
-	char line[256], *token, **arr;
+	char *line = NULL, *token, **arr;
 	int i = 0;
-
+	size_t ni = 0;
+	
+	printf("befre fgets");
 	*line_num = 1;
-	while (fgets(line, sizeof(line), f) != NULL)
+	while (getline(&line, &ni, f) > 0)
 	{
-		arr = malloc(sizeof(char *) * 2);
+		arr = malloc(sizeof(char *) * 3);
 		if (arr == NULL)
 			return (-1);
-		token = strtok(line, " \t\n");
+		token = strtok(line, " \n\t");
 		for (i = 0; i < 2; i++)
 		{
-			arr[i] = malloc(sizeof(char) * (strlen(token) + 1));
-			arr[i] = strcpy(arr[i], token);
+			arr[i] = malloc(strlen(token) + 1);
+			if (arr[i] == NULL)
+			{
+				free_array(arr);
+				return (-1);
+			}
+			strcpy(arr[i], token);
 			token = strtok(NULL, " \t\n");
 		}
 		arr[i] = NULL;
@@ -114,16 +123,13 @@ int first_function(FILE *f, int *line_num, char **opcode)
 			free(arr);
 			return (-1);
 		}
-		*opcode = arr[0];
+		*opcode_p = arr[0];
 		if (strcmp(arr[0], "push") == 0)
-			psh(arr, line_num);
+			psh(arr, line_num, head);
 
-
-
-
-
-		(*line_num)++;
+		*line_num += 1;
 	}
+	free(line);
 	return (1);
 }
 
@@ -136,25 +142,26 @@ int first_function(FILE *f, int *line_num, char **opcode)
 int main(int argc, char *argv[])
 {
 	FILE *f;
-	char *name = NULL, **opcode = NULL;
-	int *line_num = 0, check = 0;
-
+	char **opcode_p, *opcode;
+	int *line_num_p, line_num = 0, check = 0;
+	
+	line_num_p = &line_num;
+	opcode_p = &opcode;
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
-	name = argv[1];
-	f =  fopen(name, "r");
+	f =  fopen(argv[1], "r");
 	if (f == NULL)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", name);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	check = first_function(f, line_num, opcode);
+	check = first_function(f, line_num_p, opcode_p);
 	if (check == 0)
 	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, *opcode);
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_num, opcode);
 		exit(EXIT_FAILURE);
 	}
 	if (check == -1)
