@@ -1,5 +1,5 @@
 #include "monty.h"
-stack_t **head = NULL;
+
 /**
  * free_array - a function to free the line array
  * @arr: the array to be freed
@@ -53,13 +53,14 @@ int psh2(int n, stack_t **head)
  * psh - pushes element to stack
  * @arr: arguments array
  * @line_num: line number in monty file
+ * @head: head pointer
  * Return: 0 if error and 1 if success
  */
 
 int psh(char **arr, int *line_num, stack_t **head)
 {
 	int i = 0, n, check_push;
-	
+
 	printf("before psh2");
 	if (arr[1] == NULL)
 	{
@@ -88,7 +89,7 @@ int psh(char **arr, int *line_num, stack_t **head)
 /**
  * first_function - first function
  * @f: file
- * @line_num_p: line number in the file
+ * @line_num: line number in the file
  * @opcode_p: opcode
  * Return: number indicating the error
  */
@@ -97,8 +98,8 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 	char *line = NULL, *token, **arr;
 	int i = 0;
 	size_t ni = 0;
-	
-	printf("befre fgets");
+	stack_t *head = NULL;
+
 	*line_num = 1;
 	while (getline(&line, &ni, f) > 0)
 	{
@@ -125,7 +126,7 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		}
 		*opcode_p = arr[0];
 		if (strcmp(arr[0], "push") == 0)
-			psh(arr, line_num, head);
+			psh(arr, line_num, &head);
 
 		*line_num += 1;
 	}
@@ -144,7 +145,7 @@ int main(int argc, char *argv[])
 	FILE *f;
 	char **opcode_p, *opcode;
 	int *line_num_p, line_num = 0, check = 0;
-	
+
 	line_num_p = &line_num;
 	opcode_p = &opcode;
 	if (argc != 2)
