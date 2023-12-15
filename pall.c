@@ -24,17 +24,19 @@ void pll(stack_t **head)
 */
 int check_opcode(char **arr, int *line_num, stack_t **head)
 {
+	int check = 1;
+
 	if (strcmp(arr[0], "push") == 0)
-		psh(arr, line_num, head);
+		check = psh(arr, line_num, head);
 	else if (strcmp(arr[0], "pall") == 0)
 		pll(head);
 	else if (strcmp(arr[0], "pint") == 0)
 		pnt(head);
-		else if (strcmp(arr[0], "nop") == 0)
-			return (0);
-		else if (strcmp(arr[0], "add") == 0)
-			ad(head);
-	return (0);
+	else if (strcmp(arr[0], "nop") == 0)
+		return (1);
+	else if (strcmp(arr[0], "add") == 0)
+		ad(head);
+	return (check);
 }
 
 /**
@@ -45,12 +47,16 @@ void free_list(stack_t **head)
 {
 	stack_t *temp1, *temp2;
 
-	temp1 = *head;
-	while (temp1 != NULL)
+	if (*head != NULL)
 	{
-		temp2 = temp1->next;
-		free(temp1);
-		temp1 = temp2;
+		temp1 = *head;
+		while (temp1 != NULL)
+		{
+			temp2 = temp1->next;
+			free(temp1);
+			temp1 = temp2;
+		}
+		*head = NULL;
 	}
 }
 

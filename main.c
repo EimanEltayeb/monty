@@ -8,9 +8,13 @@ void free_array(char **arr)
 {
 	int i;
 
-	for (i = 0; arr[i] != NULL; i++)
-		free(arr[i]);
-	free(arr);
+	if (arr != NULL)
+	{
+		for (i = 0; arr[i] != NULL; i++)
+			free(arr[i]);
+		arr = NULL;
+		free(arr);
+	}
 }
 
 
@@ -61,7 +65,8 @@ int psh(char **arr, int *line_num, stack_t **head)
 	if (arr[1] == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", *line_num);
-		exit(EXIT_FAILURE);
+
+		return (-1);
 	}
 	while (arr[1][i] != '\0')
 	{
@@ -73,8 +78,7 @@ int psh(char **arr, int *line_num, stack_t **head)
 		if (arr[1][i] <= '0' || arr[1][i] >= '9')
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", *line_num);
-			free_array(arr);
-			exit(EXIT_FAILURE);
+			return (-1);
 		}
 		else
 			i++;
@@ -97,13 +101,15 @@ int psh(char **arr, int *line_num, stack_t **head)
 int first_function(FILE *f, int *line_num, char **opcode_p)
 {
 	char *line = NULL, *token, **arr;
-	int i = 0, j = 2;
+	int i = 0, j = 2, check;
 	size_t n = 0;
 	stack_t *head = NULL;
 
 	*line_num = 1;
 	while (getline(&line, &n, f) != -1)
 	{
+		if (line[0] == '\n')
+			continue;
 		arr = malloc(sizeof(char *) * 3);
 		if (arr == NULL)
 			return (-1);
@@ -121,17 +127,16 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			if (strcmp(arr[0], "push") == 0)
 				j = 2;
 			else
-				j = 1;
-		}
+				j = 1; }
 		arr[i] = NULL;
 		*opcode_p = arr[0];
-		check_opcode(arr, line_num, &head);
-
-		*line_num += 1;
-		}
+		check = check_opcode(arr, line_num, &head);
+		*line_num += 1; }
 	free_array(arr);
 	free(line);
 	free_list(&head);
+	if (check == -1)
+		exit(EXIT_FAILURE);
 	return (1); }
 
 /**
