@@ -9,8 +9,18 @@ void free_array(char **arr)
 	int i;
 
 	for (i = 0; arr[i] != NULL; i++)
-		free(arr[i]);
-	free(arr);
+	{
+		/*if (arr[i] != NULL)
+		{*/
+			arr[i] = NULL;
+			free(arr[i]);
+		/*}*/
+	}
+/*	if (arr != NULL)
+	{*/
+		arr = NULL;
+		free(arr);
+/*	}*/
 }
 
 
@@ -70,7 +80,7 @@ int psh(char **arr, int *line_num, stack_t **head)
 			i++;
 			continue;
 		}
-		if (arr[1][i] <= '0' || arr[1][i] >= '9')
+		if (arr[1][i] < '0' || arr[1][i] > '9')
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", *line_num);
 			free_array(arr);
@@ -97,18 +107,26 @@ int psh(char **arr, int *line_num, stack_t **head)
 int first_function(FILE *f, int *line_num, char **opcode_p)
 {
 	char *line = NULL, *token, **arr;
-	int i = 0, j = 2;
+	int i = 0, check = 1;
 	size_t n = 0;
+	ssize_t l = 0;
 	stack_t *head = NULL;
 
 	*line_num = 1;
-	while (getline(&line, &n, f) != -1)
+	while (1)
 	{
+			l = getline(&line, &n, f);
+			if (l == -1)
+				break;
+			if (l == 1)
+			{
+				*line_num += 1;
+				continue; }
 		arr = malloc(sizeof(char *) * 3);
 		if (arr == NULL)
 			return (-1);
 		token = strtok(line, " \n\t");
-		for (i = 0; i < j; i++)
+		for (i = 0; token != NULL; i++)
 		{
 			arr[i] = malloc(strlen(token) + 1);
 			if (arr[i] == NULL)
@@ -118,21 +136,26 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			}
 			strcpy(arr[i], token);
 			token = strtok(NULL, " \t\n");
-			if (strcmp(arr[0], "push") == 0)
-				j = 2;
-			else
-				j = 1;
 		}
 		arr[i] = NULL;
-		*opcode_p = arr[0];
-		check_opcode(arr, line_num, &head);
-
-		*line_num += 1;
+		if (arr[0] == NULL || arr[0][0] == '\0')
+		{
+			free_array(arr);
+			continue; }
+		*opcode_p = strdup(arr[0]);
+		check = check_opcode(arr, line_num, &head);
+		if (check == 0 || check == -1)
+		{
+			free_array(arr);
+			break;
 		}
-	free_array(arr);
+		*line_num += 1;
+		/*free_array(arr);*/
+		}
+	/*free_array(arr);*/
 	free(line);
 	free_list(&head);
-	return (1); }
+	return (check); }
 
 /**
  * main - main function

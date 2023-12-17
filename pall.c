@@ -36,6 +36,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		return (1);
 	else if (strcmp(arr[0], "add") == 0)
 		ad(head);
+	else
+		check = 0;
 	return (check);
 }
 
