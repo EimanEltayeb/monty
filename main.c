@@ -9,18 +9,8 @@ void free_array(char **arr)
 	int i;
 
 	for (i = 0; arr[i] != NULL; i++)
-	{
-		/*if (arr[i] != NULL)
-		{*/
-			arr[i] = NULL;
-			free(arr[i]);
-		/*}*/
-	}
-/*	if (arr != NULL)
-	{*/
-		arr = NULL;
-		free(arr);
-/*	}*/
+		free(arr[i]);
+	free(arr);
 }
 
 
@@ -112,17 +102,16 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 	ssize_t l = 0;
 	stack_t *head = NULL;
 
-	*line_num = 1;
 	while (1)
 	{
-			l = getline(&line, &n, f);
-			if (l == -1)
-				break;
-			if (l == 1)
-			{
-				*line_num += 1;
-				continue; }
-		arr = malloc(sizeof(char *) * 3);
+		l = getline(&line, &n, f);
+		if (l == -1)
+			break;
+		if (l == 1)
+		{
+			*line_num += 1;
+			continue; }
+		arr = malloc(sizeof(char *) * n);
 		if (arr == NULL)
 			return (-1);
 		token = strtok(line, " \n\t");
@@ -132,11 +121,9 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			if (arr[i] == NULL)
 			{
 				free_array(arr);
-				return (-1);
-			}
+				return (-1); }
 			strcpy(arr[i], token);
-			token = strtok(NULL, " \t\n");
-		}
+			token = strtok(NULL, " \t\n"); }
 		arr[i] = NULL;
 		if (arr[0] == NULL || arr[0][0] == '\0')
 		{
@@ -147,16 +134,11 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		if (check == 0 || check == -1)
 		{
 			free_array(arr);
-			break;
-		}
-		*line_num += 1;
-		/*free_array(arr);*/
-		}
-	/*free_array(arr);*/
+			break; }
+		*line_num += 1; }
 	free(line);
 	free_list(&head);
 	return (check); }
-
 /**
  * main - main function
  * @argc: arguments Number
@@ -167,7 +149,7 @@ int main(int argc, char *argv[])
 {
 	FILE *f;
 	char **opcode_p, *opcode;
-	int *line_num_p, line_num = 0, check = 0;
+	int *line_num_p, line_num = 1, check = 0;
 
 	line_num_p = &line_num;
 	opcode_p = &opcode;
