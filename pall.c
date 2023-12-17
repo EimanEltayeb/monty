@@ -92,6 +92,7 @@ int ad(stack_t **head, int *line_num)
 		fprintf(stderr, "L%d: usage: can't add, stack too short\n", *line_num);
 		return (-2);
 	}
+	temp = *head;
 	x = (*head)->n + (*head)->next->n;
 	temp = (*head)->next;
 	(*head)->next = temp->next;

@@ -131,7 +131,7 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 			continue; }
 		*opcode_p = strdup(arr[0]);
 		check = check_opcode(arr, line_num, &head);
-		if (check == 0 || check == -1)
+		if (check != 1)
 		{
 			free_array(arr);
 			break; }
