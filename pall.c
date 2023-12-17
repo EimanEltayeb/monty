@@ -7,6 +7,7 @@ void pll(stack_t **head)
 {
 	stack_t *temp;
 
+
 	temp = *head;
 	while (temp != NULL)
 	{
