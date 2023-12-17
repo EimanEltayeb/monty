@@ -31,7 +31,7 @@ void pll(stack_t **head);
 int psh(char **arr, int *line_num, stack_t **head);
 void free_list(stack_t **head);
 void pnt(stack_t **head);
-void ad(stack_t **head);
+int ad(stack_t **head, int *line_num);
 
 
 

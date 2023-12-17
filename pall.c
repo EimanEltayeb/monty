@@ -36,7 +36,7 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 	else if (strcmp(arr[0], "nop") == 0)
 		return (1);
 	else if (strcmp(arr[0], "add") == 0)
-		ad(head);
+		check = ad(head, line_num);
 	else
 		check = 0;
 	return (check);
@@ -76,15 +76,27 @@ void pnt(stack_t **head)
  * ad - adds the two top elements
  * @head: head pointer
 */
-void ad(stack_t **head)
+int ad(stack_t **head, int *line_num)
 {
 	stack_t *temp;
-	int x;
+	int x, count = 0;
 
+	temp = *head;
+	while (temp != NULL)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count < 2)
+	{
+		fprintf(stderr, "L%d: usage: can't add, stack too short\n", *line_num);
+		return (-2);
+	}
 	x = (*head)->n + (*head)->next->n;
 	temp = (*head)->next;
 	(*head)->next = temp->next;
 	temp->next->prev = (*head);
 	free(temp);
 	(*head)->n = x;
+	return (1);
 }
