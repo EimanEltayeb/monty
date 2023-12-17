@@ -175,6 +175,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: malloc failed\n");
 		exit(EXIT_FAILURE);
 	}
+	if (check == -2)
+		exit(EXIT_FAILURE);
 	fclose(f);
 	return (0);
 }
