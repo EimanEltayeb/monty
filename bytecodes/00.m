@@ -1,4 +1,4 @@
-push 402
-push 98
-div Holberton
+push 2
+push 6
+mod
 pall

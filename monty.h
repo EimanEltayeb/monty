@@ -36,6 +36,8 @@ int popp(stack_t **head, int *line_num);
 int swaap(stack_t **head, int *line_num);
 int subb(stack_t **head, int *line_num);
 int divv(stack_t **head, int *line_num);
+int mult(stack_t **head, int *line_num);
+int modd(stack_t **head, int *line_num);
 
 
 
