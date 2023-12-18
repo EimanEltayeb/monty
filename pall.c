@@ -167,7 +167,8 @@ int swaap(stack_t **head, int *line_num)
 	temp = *head;
 	*head = temp->next;
 	temp2 = (*head)->next;
-	temp2->prev = temp;
+	if (temp2 != NULL)
+		temp2->prev = temp;
 	temp->next = temp2;
 	(*head)->next = temp;
 	(*head)->prev = NULL;
