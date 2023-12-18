@@ -170,7 +170,6 @@ int main(int argc, char *argv[])
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_num, opcode);
 		free(opcode);
-		fclose(f);
 		exit(EXIT_FAILURE);
 	}
 	if (check == -1)

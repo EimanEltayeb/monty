@@ -65,6 +65,7 @@ void free_list(stack_t **head)
 /**
  * pnt - print the top element of the stack
  * @head: head pointer
+ * @line_num: line number
 */
 int pnt(stack_t **head, int *line_num)
 {
@@ -80,6 +81,7 @@ int pnt(stack_t **head, int *line_num)
 /**
  * ad - adds the two top elements
  * @head: head pointer
+ * @line_num: line number
 */
 int ad(stack_t **head, int *line_num)
 {
