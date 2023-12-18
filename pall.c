@@ -49,6 +49,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		check = mult(head, line_num);
 	else if (strcmp(arr[0], "mod") == 0)
 		check = modd(head, line_num);
+	else if (arr[0][0] == '#')
+		check = 1;
 	else
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, arr[0]);
