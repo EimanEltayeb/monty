@@ -61,7 +61,7 @@ int psh(char **arr, int *line_num, stack_t **head)
 	if (arr[1] == NULL)
 	{
 		fprintf(stderr, "L%d: usage: push integer\n", *line_num);
-		exit(EXIT_FAILURE);
+		return (-2);
 	}
 	while (arr[1][i] != '\0')
 	{
@@ -73,8 +73,7 @@ int psh(char **arr, int *line_num, stack_t **head)
 		if (arr[1][i] < '0' || arr[1][i] > '9')
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", *line_num);
-			free_array(arr);
-			exit(EXIT_FAILURE);
+			return (-2);
 		}
 		else
 			i++;
