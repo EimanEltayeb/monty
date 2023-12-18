@@ -1,3 +1,2 @@
-push 402
-add
-pall
+push 1
+pinte

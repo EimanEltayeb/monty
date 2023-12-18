@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 	if (check == -2)
-		exit(EXIT_FAILURE);
+		exit(1);
 	fclose(f);
 	return (0);
 }
