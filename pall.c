@@ -257,7 +257,7 @@ int divv(stack_t **head, int *line_num)
 }
 
 /**
- * mul - function to product top elementfrom the second top
+ * mult - function to product top elementfrom the second top
  * @head: head pointer
  * @line_num: line number
  * Return: exit status
@@ -290,7 +290,7 @@ int mult(stack_t **head, int *line_num)
 }
 
 /**
- * mod - function to  top elementfrom the second top
+ * modd - function to  top elementfrom the second top
  * @head: head pointer
  * @line_num: line number
  * Return: exit status
