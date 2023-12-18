@@ -37,6 +37,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		return (1);
 	else if (strcmp(arr[0], "add") == 0)
 		check = ad(head, line_num);
+	else if (strcmp(arr[0], "pop") == 0)
+		check = popp(head, line_num);
 	else
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, arr[0]);
@@ -64,6 +66,30 @@ void free_list(stack_t **head)
 		}
 	}
 }
+
+
+
+/**
+ * popp - function to remove stacks top element
+ * @head: head pointer
+ * @line_num: line number
+ * Return: exit status
+*/
+int popp(stack_t **head, int *line_num)
+{
+	stack_t *temp;
+
+	if (*head == NULL)
+	{
+		fprintf(stderr, "L%d: can't pop an empty stack\n", *line_num);
+		return (-2);
+	}
+	temp = *head;
+	*head = (*head)->next;
+	free(temp);
+	return (1);
+}
+
 
 /**
  * pnt - print the top element of the stack

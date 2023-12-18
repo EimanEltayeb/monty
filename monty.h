@@ -32,7 +32,7 @@ int psh(char **arr, int *line_num, stack_t **head);
 void free_list(stack_t **head);
 int pnt(stack_t **head, int *line_num);
 int ad(stack_t **head, int *line_num);
-
+int popp(stack_t **head, int *line_num);
 
 
 
