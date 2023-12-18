@@ -43,6 +43,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		check = swaap(head, line_num);
 	else if (strcmp(arr[0], "sub") == 0)
 		check = subb(head, line_num);
+	else if (strcmp(arr[0], "div") == 0)
+		check = divv(head, line_num);
 	else
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, arr[0]);
@@ -201,6 +203,44 @@ int subb(stack_t **head, int *line_num)
 		return (-2);
 	}
 	x = (*head)->next->n - (*head)->n;
+	temp = (*head)->next;
+	(*head)->next = temp->next;
+	if (temp->next != NULL)
+		temp->next->prev = (*head);
+	free(temp);
+	(*head)->n = x;
+	return (1);
+}
+
+
+/**
+ * divv - function to subsstract top elementfrom the second top
+ * @head: head pointer
+ * @line_num: line number
+ * Return: exit status
+*/
+int divv(stack_t **head, int *line_num)
+{
+	stack_t *temp;
+	int x, count = 0;
+
+	temp = *head;
+	while (temp != NULL)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count < 2)
+	{
+		fprintf(stderr, "L%d: can't div, stack too short\n", *line_num);
+		return (-2);
+	}
+	if ((*head)->n == 0)
+	{
+		fprintf(stderr, "L%d: division by zero\n", *line_num);
+		return (-2);
+	}
+	x = (*head)->next->n / (*head)->n;
 	temp = (*head)->next;
 	(*head)->next = temp->next;
 	if (temp->next != NULL)
