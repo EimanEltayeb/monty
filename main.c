@@ -110,10 +110,14 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		if (l == 1)
 		{
 			*line_num += 1;
-			continue; }
+			continue;
+		}
 		arr = malloc(sizeof(char *) * n);
 		if (arr == NULL)
-			return (-1);
+		{
+			check = -1;
+			break;
+		}
 		token = strtok(line, " \n\t");
 		for (i = 0; token != NULL; i++)
 		{
@@ -124,6 +128,7 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		if (arr[0] == NULL || arr[0][0] == '\0')
 		{
 			free_array(arr);
+			*line_num += 1;
 			continue;
 		}
 		*opcode_p = strdup(arr[0]);
