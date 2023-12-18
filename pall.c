@@ -39,6 +39,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		check = ad(head, line_num);
 	else if (strcmp(arr[0], "pop") == 0)
 		check = popp(head, line_num);
+	else if (strcmp(arr[0], "swap") == 0)
+		check = swaap(head, line_num);
 	else
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, arr[0]);
@@ -136,5 +138,39 @@ int ad(stack_t **head, int *line_num)
 	temp->next->prev = (*head);
 	free(temp);
 	(*head)->n = x;
+	return (1);
+}
+
+
+/**
+ * swaap - function to remove stacks top element
+ * @head: head pointer
+ * @line_num: line number
+ * Return: exit status
+*/
+int swaap(stack_t **head, int *line_num)
+{
+	stack_t *temp, *temp2;
+	int count = 0;
+
+	temp = *head;
+	while (temp != NULL)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count < 2)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short", *line_num);
+		return (-2);
+	}
+	temp = *head;
+	*head = temp->next;
+	temp2 = (*head)->next;
+	temp2->prev = temp;
+	temp->next = temp2;
+	(*head)->next = temp;
+	(*head)->prev = NULL;
+	temp->prev = *head;
 	return (1);
 }
