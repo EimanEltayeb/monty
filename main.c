@@ -117,28 +117,28 @@ int first_function(FILE *f, int *line_num, char **opcode_p)
 		token = strtok(line, " \n\t");
 		for (i = 0; token != NULL; i++)
 		{
-			arr[i] = malloc(strlen(token) + 1);
-			if (arr[i] == NULL)
-			{
-				free_array(arr);
-				return (-1); }
-			strcpy(arr[i], token);
-			token = strtok(NULL, " \t\n"); }
+			arr[i] = strdup(token);
+			token = strtok(NULL, " \t\n");
+		}
 		arr[i] = NULL;
 		if (arr[0] == NULL || arr[0][0] == '\0')
 		{
 			free_array(arr);
-			continue; }
+			continue;
+		}
 		*opcode_p = strdup(arr[0]);
 		check = check_opcode(arr, line_num, &head);
 		if (check != 1)
 		{
 			free_array(arr);
-			break; }
-		*line_num += 1; }
+			break;
+		}
+		*line_num += 1;
+	}
 	free(line);
 	free_list(&head);
-	return (check); }
+	return (check);
+}
 /**
  * main - main function
  * @argc: arguments Number
@@ -162,21 +162,31 @@ int main(int argc, char *argv[])
 	if (f == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
+		fclose(f);
 		exit(EXIT_FAILURE);
 	}
 	check = first_function(f, line_num_p, opcode_p);
 	if (check == 0)
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_num, opcode);
+		free(opcode);
+		fclose(f);
 		exit(EXIT_FAILURE);
 	}
 	if (check == -1)
 	{
 		fprintf(stderr, "Error: malloc failed\n");
+		free(opcode);
+		fclose(f);
 		exit(EXIT_FAILURE);
 	}
 	if (check == -2)
-		exit(1);
+	{
+		free(opcode);
+		exit(EXIT_FAILURE);
+	}
+	else
+		free(opcode);
 	fclose(f);
 	return (0);
 }
