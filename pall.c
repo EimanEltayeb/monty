@@ -203,7 +203,8 @@ int subb(stack_t **head, int *line_num)
 	x = (*head)->next->n - (*head)->n;
 	temp = (*head)->next;
 	(*head)->next = temp->next;
-	temp->next->prev = (*head);
+	if (temp->next != NULL)
+		temp->next->prev = (*head);
 	free(temp);
 	(*head)->n = x;
 	return (1);
