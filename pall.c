@@ -66,12 +66,13 @@ void free_list(stack_t **head)
  * pnt - print the top element of the stack
  * @head: head pointer
  * @line_num: line number
+ * Return: exit status
 */
 int pnt(stack_t **head, int *line_num)
 {
 	if (*head == NULL)
 	{
-		fprintf(stderr, "L%d: usage: can't pint, stack empty\n", *line_num);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", *line_num);
 		return (-2);
 	}
 	printf("%d\n", (*head)->n);
@@ -82,6 +83,7 @@ int pnt(stack_t **head, int *line_num)
  * ad - adds the two top elements
  * @head: head pointer
  * @line_num: line number
+ * Return: exit status
 */
 int ad(stack_t **head, int *line_num)
 {
@@ -96,7 +98,7 @@ int ad(stack_t **head, int *line_num)
 	}
 	if (count < 2)
 	{
-		fprintf(stderr, "L%d: usage: can't add, stack too short\n", *line_num);
+		fprintf(stderr, "L%d: can't add, stack too short\n", *line_num);
 		return (-2);
 	}
 	x = (*head)->n + (*head)->next->n;
