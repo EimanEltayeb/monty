@@ -34,6 +34,7 @@ int pnt(stack_t **head, int *line_num);
 int ad(stack_t **head, int *line_num);
 int popp(stack_t **head, int *line_num);
 int swaap(stack_t **head, int *line_num);
+int subb(stack_t **head, int *line_num);
 
 
 

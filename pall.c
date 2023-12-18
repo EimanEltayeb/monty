@@ -41,6 +41,8 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 		check = popp(head, line_num);
 	else if (strcmp(arr[0], "swap") == 0)
 		check = swaap(head, line_num);
+	else if (strcmp(arr[0], "sub") == 0)
+		check = subb(head, line_num);
 	else
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, arr[0]);
@@ -173,5 +175,36 @@ int swaap(stack_t **head, int *line_num)
 	(*head)->next = temp;
 	(*head)->prev = NULL;
 	temp->prev = *head;
+	return (1);
+}
+
+/**
+ * subb - function to subsstract top elementfrom the second top
+ * @head: head pointer
+ * @line_num: line number
+ * Return: exit status
+*/
+int subb(stack_t **head, int *line_num)
+{
+	stack_t *temp;
+	int x, count = 0;
+
+	temp = *head;
+	while (temp != NULL)
+	{
+		count++;
+		temp = temp->next;
+	}
+	if (count < 2)
+	{
+		fprintf(stderr, "L%d: can't sub, stack too short\n", *line_num);
+		return (-2);
+	}
+	x = (*head)->next->n - (*head)->n;
+	temp = (*head)->next;
+	(*head)->next = temp->next;
+	temp->next->prev = (*head);
+	free(temp);
+	(*head)->n = x;
 	return (1);
 }
