@@ -161,7 +161,7 @@ int swaap(stack_t **head, int *line_num)
 	}
 	if (count < 2)
 	{
-		fprintf(stderr, "L%d: can't swap, stack too short", *line_num);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", *line_num);
 		return (-2);
 	}
 	temp = *head;
