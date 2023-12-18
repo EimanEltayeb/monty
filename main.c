@@ -171,7 +171,6 @@ int main(int argc, char *argv[])
 	check = first_function(f, line_num_p, opcode_p);
 	if (check == 0)
 	{
-		fprintf(stderr, "L%d: unknown instruction %s\n", line_num, opcode);
 		free(opcode);
 		exit(EXIT_FAILURE);
 	}

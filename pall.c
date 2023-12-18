@@ -38,7 +38,10 @@ int check_opcode(char **arr, int *line_num, stack_t **head)
 	else if (strcmp(arr[0], "add") == 0)
 		check = ad(head, line_num);
 	else
+	{
+		fprintf(stderr, "L%d: unknown instruction %s\n", *line_num, arr[0]);
 		check = 0;
+	}
 	return (check);
 }
 
